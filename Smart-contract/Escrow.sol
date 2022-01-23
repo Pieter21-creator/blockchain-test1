@@ -16,4 +16,19 @@ contract Escrow{
     lawyer = msg.sender; 
     amount = _amount;
   }
+
+  function deposit() payable public {
+    require(msg.sender = payer, 'Sender must be the payer');
+    require(address(this).balance <= amount, 'Cant send more than escrow amount');
+  }
+
+  function release() public {
+    require(address(this).balance == amount, 'cannot release funds before full amount is sent');
+    require(msg.sender == lawyer, 'only lawyer can release funds');
+    payee.transfer(amount);
+  }
+  
+  function balanceOf() view public returns(uint) {
+    return address(this).balance;
+  }
 }
